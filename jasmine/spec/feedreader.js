@@ -27,39 +27,41 @@ $(function() {
         });
 
 
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a URL defined
-         * and that the URL is not empty.
-         */
-        it('all of the feeds has a valid populated URL property', function() {
-            allFeeds.forEach((feed) => {
-                // Test that the feed object has a url property defined
-                expect(feed['url']).toBeDefined();
-                // Test that the url property is a string
-                expect(typeof feed['url'] === 'string').toBe(true);
-                // Check that the url format is valid
-                // https://www.regextester.com/93652
-                expect(feed['url']).toEqual(jasmine
-                    .stringMatching(/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/));
+        describe('Each Feed', function() {
+            /* TODO: Write a test that loops through each feed
+            * in the allFeeds object and ensures it has a URL defined
+            * and that the URL is not empty.
+            */
+            it('has a valid URL in a correct format', function() {
+                allFeeds.forEach((feed) => {
+                    // Test that the feed object has a url property defined
+                    expect(feed['url']).toBeDefined();
+                    // Test that the url property is a string
+                    expect(typeof feed['url'] === 'string').toBe(true);
+                    // Check that the url format is valid
+                    // https://www.regextester.com/93652
+                    expect(feed['url']).toEqual(jasmine
+                        .stringMatching(/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/));
+                });
             });
-        });
 
 
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a name defined
-         * and that the name is not empty.
-         */
-        it('all of the feeds has a populated Name property', function() {
-            allFeeds.forEach((feed) => {
-                // Test that the feed object has a name property defined
-                expect(feed['name']).toBeDefined();
-                // Test that the name property is a string
-                expect(typeof feed['name'] === 'string').toBe(true);
-                // Test that the name property is not empty
-                // The RegEx prvents strings that has only spaces
-                expect(feed['name']).not.toEqual(jasmine.stringMatching(/^ +$/));
+            /* TODO: Write a test that loops through each feed
+            * in the allFeeds object and ensures it has a name defined
+            * and that the name is not empty.
+            */
+            it('has a Name', function() {
+                allFeeds.forEach((feed) => {
+                    // Test that the feed object has a name property defined
+                    expect(feed['name']).toBeDefined();
+                    // Test that the name property is a string
+                    expect(typeof feed['name'] === 'string').toBe(true);
+                    // Test that the name property is not empty
+                    // The RegEx prvents strings that has only spaces
+                    expect(feed['name']).not.toEqual(jasmine.stringMatching(/^ +$/));
+                });
             });
-        });
+        })
     });
 
 
