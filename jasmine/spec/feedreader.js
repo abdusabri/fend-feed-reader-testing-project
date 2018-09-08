@@ -49,6 +49,17 @@ $(function() {
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
+        it('all of the feeds has a populated Name property', function() {
+            allFeeds.forEach((feed) => {
+                // Test that the feed object has a name property defined
+                expect(feed['name']).toBeDefined();
+                // Test that the name property is a string
+                expect(typeof feed['name'] === 'string').toBe(true);
+                // Test that the name property is not empty
+                // The RegEx prvents strings that has only spaces
+                expect(feed['name']).not.toEqual(jasmine.stringMatching(/^ +$/));
+            });
+        });
     });
 
 
