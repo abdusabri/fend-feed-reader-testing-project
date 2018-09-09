@@ -110,11 +110,11 @@ $(function() {
         });
         
         it('have at least one entry in the feed container', function(done) {
-            expect(document.querySelector('.feed').hasChildNodes())
-                .toBe(true);
+            expect(document.querySelectorAll('.feed .entry').length)
+                .toBeGreaterThan(0);
             done();
         });
-    });    
+    });
     /* TODO: Write a new test suite named "New Feed Selection" */
     describe('New Feed Selection', function() {    
         /* TODO: Write a test that ensures when a new feed is loaded
@@ -127,15 +127,22 @@ $(function() {
         
         it('has the contents change based on the new feed', function(done) {
             // Store the first entry element after the first feed has finished loading
-            let originalEntry = document.querySelector('.feed').firstElementChild;
+            let originalEntry = document.querySelector('.feed .entry');
+            expect(originalEntry).toBeTruthy();
             // Load a different feed
             loadFeed(1, () => {
                 /* As the feed container clears its contents before loading a new feed,
                  * compare the innerHTML of the first entry from the previous feed 
                  * with that of the newly loaded feed. 
                  */
-                expect(document.querySelector('.feed').firstElementChild.innerHTML 
-                    != originalEntry.innerHTML).toBe(true);
+                let newEntry = document.querySelector('.feed .entry');
+                expect(newEntry).toBeTruthy();
+                if (!originalEntry || !newEntry) {
+                    fail('Feed container does not have a valid entry');
+                    done();
+                    return;
+                }
+                expect(newEntry.innerHTML != originalEntry.innerHTML).toBe(true);
                 done();
             });
         });
