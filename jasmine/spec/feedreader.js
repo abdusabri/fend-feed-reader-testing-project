@@ -116,11 +116,28 @@ $(function() {
         });
     });    
     /* TODO: Write a new test suite named "New Feed Selection" */
-
+    describe('New Feed Selection', function() {    
         /* TODO: Write a test that ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
+        beforeEach(function(done) {
+            loadFeed(0, done);
+        });
         
-    
+        it('has the contents change based on the new feed', function(done) {
+            // Store the first entry element after the first feed has finished loading
+            let originalEntry = document.querySelector('.feed').firstElementChild;
+            // Load a different feed
+            loadFeed(1, () => {
+                /* As the feed container clears its contents before loading a new feed,
+                 * compare the innerHTML of the first entry from the previous feed 
+                 * with that of the newly loaded feed. 
+                 */
+                expect(document.querySelector('.feed').firstElementChild.innerHTML 
+                    != originalEntry.innerHTML).toBe(true);
+                done();
+            });
+        });
+    });
 }());
