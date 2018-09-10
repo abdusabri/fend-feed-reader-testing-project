@@ -122,29 +122,38 @@ $(function() {
          * loadFeed() is asynchronous.
          */
         beforeEach(function(done) {
-            loadFeed(0, done);
+            // Vars to be used to store entries and compare their values
+            this.originalEntry = null;
+            this.newEntry = null;
+
+            loadFeed(0, () => {
+                // Store the first entry element after the first feed has finished loading
+                this.originalEntry = document.querySelector('.feed .entry');
+                
+                // Load a different feed
+                loadFeed(1, () => {
+                    this.newEntry = document.querySelector('.feed .entry');
+                    done();
+                })
+            });
         });
         
         it('has the contents change based on the new feed', function(done) {
-            // Store the first entry element after the first feed has finished loading
-            let originalEntry = document.querySelector('.feed .entry');
-            expect(originalEntry).toBeTruthy();
-            // Load a different feed
-            loadFeed(1, () => {
-                /* As the feed container clears its contents before loading a new feed,
-                 * compare the innerHTML of the first entry from the previous feed 
-                 * with that of the newly loaded feed. 
-                 */
-                let newEntry = document.querySelector('.feed .entry');
-                expect(newEntry).toBeTruthy();
-                if (!originalEntry || !newEntry) {
-                    fail('Feed container does not have a valid entry');
-                    done();
-                    return;
-                }
-                expect(newEntry.innerHTML != originalEntry.innerHTML).toBe(true);
+            expect(this.originalEntry).toBeTruthy();
+            expect(this.newEntry).toBeTruthy();
+            
+            if (!this.originalEntry || !this.newEntry) {
+                fail('Feed container does not have a valid entry');
                 done();
-            });
+                return;
+            }
+
+            /*As the feed container clears its contents before loading a new feed,
+            * compare the innerHTML of the first entry from the previous feed 
+            * with that of the newly loaded feed. 
+            */
+            expect(this.newEntry.innerHTML != this.originalEntry.innerHTML).toBe(true);
+            done();
         });
     });
 }());
